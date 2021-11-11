@@ -13,7 +13,7 @@ from tensorflow.keras.datasets import fashion_mnist
 
 
 class FashionApp(App):
-    def choice_number(self, btn):
+    def choice_number(self):
         a = self.txt1.text
         if a.isdigit():
             if 0 < int(a) <= 60000:
@@ -23,14 +23,15 @@ class FashionApp(App):
 
                 (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
                 # прописываем имена т.к. они не включены в набор данных
-                class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal', 'Shirt', 'Sneaker', 'Bag',
-                               'Ankle boot']
+                class_names = ['Футболка', 'Штаны', 'Пуловер', 'Платье', 'Пальто', 'Сандалии', 'Рубашка', 'Кроссовки',
+                               'Сумка', 'Ботинки']
                 # нормализация данных для улучшения алгоритма оптимизации обучения сетей
                 x_train = x_train / 255
                 x_test = x_test / 255
                 # создаем последовательную модель нейронной сети
                 model = keras.Sequential([
-                    keras.layers.Flatten(input_shape=(28, 28)),  # преобразование 2-мерного массива данных в 1-мерный массив
+                    keras.layers.Flatten(input_shape=(28, 28)),  # преобразование 2-мерного массива данных в 1-мерный
+                    # массив
                     keras.layers.Dense(128, activation="relu"),
                     # для входного слоя используем 128 нейронов, используем функцию
                     # активации "relu" т.к она хороша в простых сетях
@@ -64,13 +65,14 @@ class FashionApp(App):
                 var = class_names[np.argmax(predictions[x])]
                 print(var)
 
-                self.lbl1.text = "This is " + var
+                self.lbl1.text = "Это " + var
             else:
                 self.lbl1.text = "Ошибка, введите целое число от 1 до 60000"
         else:
             self.lbl1.text = "Ошибка, введите целое число от 1 до 60000"
 
     def build(self):
+
         al = AnchorLayout()
         bl = BoxLayout(orientation='vertical', size_hint=[.5, .5])
 
